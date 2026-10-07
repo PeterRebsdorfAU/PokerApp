@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: pokerapp
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .
+    headers:
+      - path: /sw.js
+        name: Cache-Control
+        value: no-cache

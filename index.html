@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Poker Afregning</title>
+  <meta name="description" content="Hold styr på indkøb og udregn hvem der skal overføre hvad efter pokeraftenen.">
+  <meta name="theme-color" content="#0f3d2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Poker">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>♠ Poker Afregning</h1>
+    <button class="icon-btn" id="btn-settings" aria-label="Indstillinger">⚙︎</button>
+  </header>
+
+  <main>
+    <!-- Spillere & indkøb -->
+    <section class="view" id="view-players">
+      <div class="card">
+        <form id="add-player-form" class="row">
+          <input id="new-player-name" type="text" placeholder="Tilføj spiller…" autocomplete="off" enterkeyhint="done" maxlength="30">
+          <button type="submit" class="btn primary">Tilføj</button>
+        </form>
+        <div id="known-players" class="chips-row"></div>
+      </div>
+
+      <div id="player-list"></div>
+
+      <div class="card summary" id="buyin-summary"></div>
+    </section>
+
+    <!-- Optælling -->
+    <section class="view" id="view-count" hidden>
+      <div class="card">
+        <p class="muted">Tæl hver spillers chips op til sidst og skriv antallet ind.</p>
+        <div id="count-list"></div>
+      </div>
+      <div class="card summary" id="count-summary"></div>
+      <button class="btn primary wide" id="btn-go-settle">Udregn afregning →</button>
+    </section>
+
+    <!-- Afregning -->
+    <section class="view" id="view-settle" hidden>
+      <div id="settle-content"></div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button class="tab active" data-view="players"><span>👥</span>Indkøb</button>
+    <button class="tab" data-view="count"><span>🪙</span>Optælling</button>
+    <button class="tab" data-view="settle"><span>💸</span>Afregning</button>
+  </nav>
+
+  <!-- Indstillinger -->
+  <dialog id="settings-dialog">
+    <form method="dialog" class="dialog-body">
+      <h2>Indstillinger</h2>
+      <label class="field">
+        <span>Ét indkøb koster (kr)</span>
+        <input id="set-buyin-kr" type="text" inputmode="decimal" autocomplete="off">
+      </label>
+      <label class="field">
+        <span>…og giver antal chips</span>
+        <input id="set-buyin-chips" type="text" inputmode="decimal" autocomplete="off">
+      </label>
+      <p class="muted small" id="set-rate"></p>
+      <label class="check">
+        <input id="set-round" type="checkbox">
+        <span>Afrund overførsler til hele kroner</span>
+      </label>
+
+      <h3>Gemte navne</h3>
+      <div id="saved-names" class="chips-row"></div>
+
+      <h3>Nyt spil</h3>
+      <div class="stack">
+        <button type="button" class="btn" id="btn-new-same">Nyt spil med samme spillere</button>
+        <button type="button" class="btn danger" id="btn-new-empty">Nyt spil uden spillere</button>
+      </div>
+
+      <div class="dialog-actions">
+        <button class="btn primary" value="close">Færdig</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Eget beløb -->
+  <dialog id="amount-dialog">
+    <form method="dialog" class="dialog-body" id="amount-form">
+      <h2 id="amount-title">Andet beløb</h2>
+      <label class="field">
+        <span>Beløb i kr</span>
+        <input id="amount-input" type="text" inputmode="decimal" autocomplete="off">
+      </label>
+      <p class="muted small" id="amount-hint"></p>
+      <div class="dialog-actions">
+        <button class="btn" value="cancel" formnovalidate>Annullér</button>
+        <button class="btn primary" value="ok">Tilføj</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
